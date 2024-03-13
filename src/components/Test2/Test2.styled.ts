@@ -1,4 +1,3 @@
-import styled from 'styled-components';
+import styled from "@emotion/styled";
 
-export const Test2Wrapper = styled.div`
-`;
+export const Test2Wrapper = styled.div``;
