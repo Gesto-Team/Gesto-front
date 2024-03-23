@@ -1,4 +1,4 @@
-# Stage 1
+# Node
 
 FROM node:18.10-alpine AS build
 
@@ -12,7 +12,7 @@ COPY . .
 
 RUN npm run build
 
-# Stage 2
+# Nginx
 
 FROM nginx:1.17.1-alpine
 
