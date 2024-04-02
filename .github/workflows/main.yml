@@ -41,4 +41,4 @@ jobs:
           port: 2024
           script: |
             cd /var/www/cyril/Gesto-front/
-            docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
+            echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
