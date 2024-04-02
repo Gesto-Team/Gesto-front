@@ -39,7 +39,7 @@ jobs:
       - name: SSH Execute Commands
         uses: JimCronqvist/action-ssh@0.1.1
         with:
-          hosts: ${{ secrets.USERNAME }}@${{ secrets.HOST }}
+          hosts: ${{ secrets.USERNAME }}@${{ secrets.HOST }}:${{ secrets.PORT }}
           privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
           debug: false
           command: |
