@@ -44,5 +44,4 @@ jobs:
             git pull
             docker stop gesto-front
             docker rm gesto-front
-            docker image rm -f ghcr.io/gesto-team/gesto-front/gesto-front:latest
             docker run -d -p 8080:80 --name gesto-front ghcr.io/gesto-team/gesto-front/gesto-front:latest
