@@ -4,43 +4,45 @@ on:
   push:
     branches:
       - main
-      - develop
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions: write-all
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      # - name: creating env variables
-      #   run: |
-      #     touch .env
-      #     echo NODE_ENV="production" >> .env
-      #     echo VITE_API_URL="https://sample-restaurant.com/backskinsight/" >> .env
-      - name: publish to registery
+      - name: publish to registry
         uses: VaultVulp/gp-docker-action@1.2.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           image-name: gesto-front
 
-  # test:
-  #   runs-on: ubuntu-latest
-  #   needs: build
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - name: Run a one-line script
-  #       run: echo Hello word
-
-  deploy:
+  test:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v3
+      - name: Run a one-line script
+        run: echo Hello word
 
-      - name: Log in to the Container registry
-        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: SSH Execute Commands
+        uses: appleboy/ssh-action@master
         with:
-          registry: "ghcr.io"
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 2024
+          script: |
+            cd /var/www/cyril/Gesto-front/
+            echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            git remote set-url origin https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/Gesto-Team/Gesto-front.git
+            git pull
+            docker stop gesto-front
+            docker rm gesto-front
+            docker image rm -f ghcr.io/gesto-team/gesto-front/gesto-front:latest
+            docker run -d -p 8080:80 --name gesto-front ghcr.io/gesto-team/gesto-front/gesto-front:latest
