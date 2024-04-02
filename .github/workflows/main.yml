@@ -9,6 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions: write-all
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -17,7 +18,7 @@ jobs:
       #     touch .env
       #     echo NODE_ENV="production" >> .env
       #     echo VITE_API_URL="https://sample-restaurant.com/backskinsight/" >> .env
-      - name: publish to registery
+      - name: publish to registry
         uses: VaultVulp/gp-docker-action@1.2.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
