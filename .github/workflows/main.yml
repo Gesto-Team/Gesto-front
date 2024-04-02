@@ -24,24 +24,30 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           image-name: gesto-front
 
-  # test:
-  #   runs-on: ubuntu-latest
-  #   needs: build
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - name: Run a one-line script
-  #       run: echo Hello word
-
-  deploy:
+  test:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v3
+      - name: Run a one-line script
+        run: echo Hello word
 
-      - name: Log in to the Container registry
-        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: SSH Execute Commands
+        uses: JimCronqvist/action-ssh@0.1.1
         with:
-          registry: "ghcr.io"
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          hosts: ${{ secrets.USERNAME }}@${{ secrets.HOST }}
+          privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
+          debug: false
+          command: |
+            cd /var/www/cyril/Gesto-front/
+            docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
+            git remote set-url origin https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/Gesto-Team/Gesto-front.git
+            git pull
+            docker stop gesto-front
+            docker rm gesto-front
+            docker image rm -f ghcr.io/gesto-team/gesto-front/gesto-front:latest
+            docker run -d -p 8080:80 --name gesto-front ghcr.io/gesto-team/gesto-front/gesto-front:latest
