@@ -42,9 +42,3 @@ jobs:
           script: |
             cd /var/www/cyril/Gesto-front/
             docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
-            git remote set-url origin https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/Gesto-Team/Gesto-front.git
-            git pull
-            docker stop gesto-front
-            docker rm gesto-front
-            docker image rm -f ghcr.io/gesto-team/gesto-front/gesto-front:latest
-            docker run -d -p 8080:80 --name gesto-front ghcr.io/gesto-team/gesto-front/gesto-front:latest
