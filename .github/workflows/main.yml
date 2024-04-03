@@ -37,4 +37,4 @@ jobs:
             docker stop gesto-front
             docker rm gesto-front
             docker image rm -f ghcr.io/gesto-team/gesto-front/gesto-front
-            docker run -d -p 8080:80 -v /etc/nginx/nginx.conf:/etc/nginx/nginx.conf --name gesto-front ghcr.io/gesto-team/gesto-front/gesto-front
+            docker run -d -p 8080:80 -v /etc/nginx/sites-available/gesto-docker-front.conf:/etc/nginx/conf.d/default.conf  --name gesto-front ghcr.io/gesto-team/gesto-front/gesto-front
