@@ -14,11 +14,15 @@ WORKDIR /usr/share/nginx/html
 # Copy built files from Node stage
 COPY --from=build /usr/src/app/dist /usr/share/nginx/html/
 
-# Set permissions for the www-data user
-RUN chown -R nginx:nginx /usr/share/nginx/html
+# Set permissions for the Nginx user and group
+RUN chown -R nginx:nginx /usr/share/nginx/html && \
+    chown -R nginx:nginx /var/cache/nginx
 
 # Switch to the nginx user
 USER nginx
+
+# Create the client_temp directory
+RUN mkdir -p /var/cache/nginx/client_temp
 
 # Start Nginx (this is the default CMD for the nginx image)
 CMD ["nginx", "-g", "daemon off;"]
