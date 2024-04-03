@@ -16,6 +16,8 @@ RUN npm run build
 
 FROM nginx:1.17.1-alpine
 
+RUN usermod -a -G www-data www-data
+
 EXPOSE 80
 
 WORKDIR /usr/share/nginx/html
