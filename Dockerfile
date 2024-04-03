@@ -20,6 +20,14 @@ EXPOSE 80
 
 WORKDIR /usr/share/nginx/html
 
+# Copy built files from Node stage
+COPY --from=build /usr/src/app/dist /usr/share/nginx/html/
+
+# Set permissions for the www-data user
+RUN chown -R www-data:www-data /usr/share/nginx/html
+
+# Switch to the www-data user
 USER www-data
 
-COPY --from=build /usr/src/app/dist /usr/share/nginx/html/
+# Start Nginx (this is the default CMD for the nginx image)
+CMD ["nginx", "-g", "daemon off;"]
