@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - develop-cyril
 
 jobs:
   build:
@@ -45,4 +46,4 @@ jobs:
             docker stop gesto-front
             docker rm gesto-front
             docker image rm -f ghcr.io/gesto-team/gesto-front/gesto-front
-            docker run -d -p 8080:80 --name gesto-front -v /etc/nginx:/etc/nginx/ ghcr.io/gesto-team/gesto-front/gesto-front
+            docker run -d -p 8080:80 --name gesto-front ghcr.io/gesto-team/gesto-front/gesto-front
