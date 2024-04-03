@@ -11,8 +11,8 @@ FROM nginx:1.17.1-alpine
 EXPOSE 80
 WORKDIR /usr/share/nginx/html
 
-# Add www-data user and group
-RUN addgroup -g 101 -S www-data && \
+# Add www-data user and group with a different group ID
+RUN addgroup -g 1000 -S www-data && \
     adduser -u 101 -D -S -G www-data www-data
 
 # Copy built files from Node stage
