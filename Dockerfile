@@ -16,7 +16,7 @@ RUN npm run build
 
 FROM nginx:1.17.1-alpine
 
-RUN usermod -a -G www-data www-data
+RUN addgroup -g 1000 -S www-data && adduser -u 1000 -D -S -G www-data www-data
 
 EXPOSE 80
 
