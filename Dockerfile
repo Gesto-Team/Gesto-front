@@ -11,3 +11,4 @@ FROM nginx:1.17.1-alpine
 EXPOSE 80
 WORKDIR /usr/share/nginx/html
 COPY --from=build /usr/src/app/dist /usr/share/nginx/html/
+USER www-data
