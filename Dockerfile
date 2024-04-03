@@ -18,11 +18,12 @@ COPY --from=build /usr/src/app/dist /usr/share/nginx/html/
 RUN chown -R nginx:nginx /usr/share/nginx/html && \
     chown -R nginx:nginx /var/cache/nginx
 
-# Switch to the nginx user
-USER nginx
-
 # Create the client_temp directory
-RUN mkdir -p /var/cache/nginx/client_temp
+RUN mkdir -p /var/cache/nginx/client_temp && \
+    chown -R nginx:nginx /var/cache/nginx/client_temp
+
+# Switch to a non-root user
+USER nginx
 
 # Start Nginx (this is the default CMD for the nginx image)
 CMD ["nginx", "-g", "daemon off;"]
