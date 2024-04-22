@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Login.scss';
-import axios from 'axios'
+import axiosApiInstance from '../../AxiosConfig';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -15,6 +15,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
+
 
 function Copyright(props: any) {
   return (
@@ -46,18 +47,15 @@ const LoginPage: React.FC = () => {
       ...prevState,
       [name]: value
     }));
-
-    console.log(formData);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:3000/auth/login', formData);
+      const response = await axiosApiInstance.post('http://localhost:3000/auth/login', formData);
       const token = response.data.access_token;
       setAccessToken(token);
-      console.log(token);
       localStorage.setItem('accessToken', token);
       navigate('/');
     } catch (error) {
@@ -66,9 +64,8 @@ const LoginPage: React.FC = () => {
   };
 
   const fetchData = async () => {
-    console.log(accessToken)
     try {
-      const response = await axios.get('http://localhost:3000/auth/profile', {
+      const response = await axiosApiInstance.get('http://localhost:3000/auth/profile', {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }

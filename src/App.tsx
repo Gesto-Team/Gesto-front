@@ -4,9 +4,8 @@ import LoginPage from './components/Login/Login';
 import RegisterPage from './components/Register/Register';
 import DashboardPage from './components/DashboardPage/DashboardPage';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosApiInstance from './AxiosConfig';
 
-const axiosApiInstance = axios.create();
 
 // Response interceptor for API calls
 axiosApiInstance.interceptors.response.use((response) => {
@@ -38,7 +37,7 @@ const fetchData = async () => {
   }
 };
 
-fetchData();
+// fetchData();
 
 const isAuthenticated = (): boolean => {
   // Vérifie si l'utilisateur est authentifié, par exemple en vérifiant la présence d'un jeton d'accès dans le localStorage
