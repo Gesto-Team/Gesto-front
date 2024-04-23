@@ -39,6 +39,7 @@ const LoginPage: React.FC = () => {
     password: ''
   });
   const [accessToken, setAccessToken] = useState<string | null>(localStorage.getItem('accessToken'));
+  const [userID, setUserID] = useState<string | null>(localStorage.getItem('userID'));
 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,30 +56,15 @@ const LoginPage: React.FC = () => {
     try {
       const response = await axiosApiInstance.post('http://localhost:3000/auth/login', formData);
       const token = response.data.access_token;
+      const userID = response.data.userId;
       setAccessToken(token);
+      setUserID(userID);
       localStorage.setItem('accessToken', token);
-      navigate('/');
+      localStorage.setItem('userID', userID);
+      window.location.href = '/';
     } catch (error) {
       console.error('Erreur lors de la requête POST:', error);
     }
-  };
-
-  const fetchData = async () => {
-    try {
-      const response = await axiosApiInstance.get('http://localhost:3000/auth/profile', {
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
-      });
-      console.log('Données récupérées:', response.data);
-    } catch (error) {
-      console.error('Erreur lors de la récupération des données:', error);
-    }
-  };
-
-  const handleLogout = () => {
-    setAccessToken(null);
-    localStorage.removeItem('accessToken');
   };
 
   return (
