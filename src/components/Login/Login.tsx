@@ -5,8 +5,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -14,7 +12,6 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useNavigate } from "react-router-dom";
 
 function Copyright(props: any) {
   return (
@@ -37,17 +34,10 @@ function Copyright(props: any) {
 const defaultTheme = createTheme();
 
 const LoginPage: React.FC = () => {
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     password: "",
   });
-  const [accessToken, setAccessToken] = useState<string | null>(
-    localStorage.getItem("accessToken")
-  );
-  const [userID, setUserID] = useState<string | null>(
-    localStorage.getItem("userID")
-  );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -64,8 +54,6 @@ const LoginPage: React.FC = () => {
       const response = await axiosApiInstance.post(`auth/login`, formData);
       const token = response.data.access_token;
       const userID = response.data.userId;
-      setAccessToken(token);
-      setUserID(userID);
       localStorage.setItem("accessToken", token);
       localStorage.setItem("userID", userID);
       window.location.href = "/";

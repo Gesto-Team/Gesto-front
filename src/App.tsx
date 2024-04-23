@@ -9,10 +9,7 @@ import {
 import LoginPage from "./components/Login/Login";
 import RegisterPage from "./components/Register/Register";
 import DashboardPage from "./components/DashboardPage/DashboardPage";
-import { useNavigate } from "react-router-dom";
 import axiosApiInstance from "./AxiosConfig";
-import { jwtDecode } from "jwt-decode";
-import axios from "axios";
 
 const fetchData = async () => {
   const userID = localStorage.getItem("userID");
