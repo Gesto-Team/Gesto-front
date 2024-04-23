@@ -1,31 +1,35 @@
-import React, { useState } from 'react';
-import './Login.scss';
-import axiosApiInstance from '../../AxiosConfig';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useNavigate } from 'react-router-dom';
-
+import React, { useState } from "react";
+import "./Login.scss";
+import axiosApiInstance from "../../AxiosConfig";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
 
 function Copyright(props: any) {
   return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}
+    >
+      {"Copyright © "}
       <Link color="inherit" href="https://mui.com/">
         Your Website
-      </Link>{' '}
+      </Link>{" "}
       {new Date().getFullYear()}
-      {'.'}
+      {"."}
     </Typography>
   );
 }
@@ -35,18 +39,21 @@ const defaultTheme = createTheme();
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    username: '',
-    password: ''
+    username: "",
+    password: "",
   });
-  const [accessToken, setAccessToken] = useState<string | null>(localStorage.getItem('accessToken'));
-  const [userID, setUserID] = useState<string | null>(localStorage.getItem('userID'));
-
+  const [accessToken, setAccessToken] = useState<string | null>(
+    localStorage.getItem("accessToken")
+  );
+  const [userID, setUserID] = useState<string | null>(
+    localStorage.getItem("userID")
+  );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -54,16 +61,16 @@ const LoginPage: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await axiosApiInstance.post('http://localhost:3000/auth/login', formData);
+      const response = await axiosApiInstance.post(`auth/login`, formData);
       const token = response.data.access_token;
       const userID = response.data.userId;
       setAccessToken(token);
       setUserID(userID);
-      localStorage.setItem('accessToken', token);
-      localStorage.setItem('userID', userID);
-      window.location.href = '/';
+      localStorage.setItem("accessToken", token);
+      localStorage.setItem("userID", userID);
+      window.location.href = "/";
     } catch (error) {
-      console.error('Erreur lors de la requête POST:', error);
+      console.error("Erreur lors de la requête POST:", error);
     }
   };
 
@@ -74,38 +81,43 @@ const LoginPage: React.FC = () => {
         <Box
           sx={{
             marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Connexion
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          <TextField
-            label="Username"
-            type="text"
-            name='username'
-            value={formData.username}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            required
-          />
-          <TextField
-            label="Mot de passe"
-            type="password"
-            name='password'
-            value={formData.password}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            required
-          />
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+          >
+            <TextField
+              label="Username"
+              type="text"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+              required
+            />
+            <TextField
+              label="Mot de passe"
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+              required
+            />
             {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
@@ -139,4 +151,3 @@ const LoginPage: React.FC = () => {
 };
 
 export default LoginPage;
-
