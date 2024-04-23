@@ -1,12 +1,31 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate, Link } from 'react-router-dom';
-import LoginPage from './components/Login/Login';
-import RegisterPage from './components/Register/Register';
-import DashboardPage from './components/DashboardPage/DashboardPage';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+  Link,
+} from "react-router-dom";
+import LoginPage from "./components/Login/Login";
+import RegisterPage from "./components/Register/Register";
+import DashboardPage from "./components/DashboardPage/DashboardPage";
+import axiosApiInstance from "./AxiosConfig";
+
+const fetchData = async () => {
+  const userID = localStorage.getItem("userID");
+  try {
+    const response = await axiosApiInstance.get(`users/${userID}`);
+    console.log("Données récupérées:", response.data);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des données:", error);
+  }
+};
+
+fetchData();
 
 const isAuthenticated = (): boolean => {
   // Vérifie si l'utilisateur est authentifié, par exemple en vérifiant la présence d'un jeton d'accès dans le localStorage
-  const accessToken = localStorage.getItem('accessToken');
+  const accessToken = localStorage.getItem("accessToken");
   return accessToken !== null;
 };
 
@@ -18,7 +37,11 @@ const Navbar: React.FC<{ isLoggedIn: boolean; onLogout: () => void }> = () => {
           <Link to="/">Accueil</Link>
         </li>
         <li>
-          {isAuthenticated() ? <button onClick={handleLogout}>Se déconnecter</button> : <Link to="/login">Connexion</Link>}
+          {isAuthenticated() ? (
+            <button onClick={handleLogout}>Se déconnecter</button>
+          ) : (
+            <Link to="/login">Connexion</Link>
+          )}
         </li>
       </ul>
     </nav>
@@ -26,22 +49,26 @@ const Navbar: React.FC<{ isLoggedIn: boolean; onLogout: () => void }> = () => {
 };
 
 const handleLogout = () => {
-  console.log('remove token');
-  localStorage.removeItem('accessToken');
+  localStorage.removeItem("userID");
+  localStorage.removeItem("accessToken");
+  window.location.href = "/login";
 };
 
 const App: React.FC = () => {
   return (
     <Router>
       <div>
-        <Navbar isLoggedIn={isAuthenticated() ? true : false} onLogout={handleLogout} />
+        <Navbar
+          isLoggedIn={isAuthenticated() ? true : false}
+          onLogout={handleLogout}
+        />
         <Routes>
-            <Route
-              path="/"
-              element={
-                isAuthenticated() ? <DashboardPage /> : <Navigate to="/login" />
-              }
-            />
+          <Route
+            path="/"
+            element={
+              isAuthenticated() ? <DashboardPage /> : <Navigate to="/login" />
+            }
+          />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
         </Routes>
@@ -50,4 +77,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App
+export default App;
