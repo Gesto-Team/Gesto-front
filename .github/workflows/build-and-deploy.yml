@@ -16,7 +16,7 @@ jobs:
         run: |
           touch .env
           echo NODE_ENV="production" >> .env
-          echo VITE_API_URL="https://api.gesto.ovh/" >> .env
+          echo VITE_API_URL="http://api.gesto.ovh/" >> .env
       - name: publish to registry
         uses: VaultVulp/gp-docker-action@1.2.0
         with:
