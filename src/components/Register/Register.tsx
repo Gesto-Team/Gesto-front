@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Register.scss";
 import { Button, TextField, Typography, Container } from "@mui/material";
 import axios from "axios";
+import axiosApiInstance from "../../AxiosConfig";
 
 const RegisterPage: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -24,11 +25,11 @@ const RegisterPage: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(`auth/register`, formData);
+      const response = await axiosApiInstance.post(`auth/register`, formData);
       const token = response.data.access_token;
       setAccessToken(token);
-      console.log(token);
       localStorage.setItem("accessToken", token);
+      window.location.href = "/";
     } catch (error) {
       console.error("Erreur lors de la requête POST:", error);
     }

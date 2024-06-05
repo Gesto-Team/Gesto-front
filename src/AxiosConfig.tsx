@@ -25,6 +25,7 @@ axiosApiInstance.interceptors.response.use(
       const response = await axiosApiInstance.get(`auth/refresh`);
       const access_token = response.data.access_token;
       localStorage.setItem("accessToken", access_token);
+      console.log();
       axiosApiInstance.defaults.headers.common["Authorization"] =
         "Bearer " + access_token;
       return axiosApiInstance(originalRequest);

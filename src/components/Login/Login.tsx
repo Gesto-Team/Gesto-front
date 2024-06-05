@@ -53,9 +53,7 @@ const LoginPage: React.FC = () => {
     try {
       const response = await axiosApiInstance.post(`auth/login`, formData);
       const token = response.data.access_token;
-      const userID = response.data.userId;
       localStorage.setItem("accessToken", token);
-      localStorage.setItem("userID", userID);
       window.location.href = "/";
     } catch (error) {
       console.error("Erreur lors de la requête POST:", error);

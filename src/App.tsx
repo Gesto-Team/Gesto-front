@@ -10,12 +10,18 @@ import LoginPage from "./components/Login/Login";
 import RegisterPage from "./components/Register/Register";
 import DashboardPage from "./components/DashboardPage/DashboardPage";
 import axiosApiInstance from "./AxiosConfig";
+import { jwtDecode } from "jwt-decode";
 
 const fetchData = async () => {
-  const userID = localStorage.getItem("userID");
+  const accessToken = localStorage.getItem("accessToken") || '';
+  const userID = jwtDecode(accessToken).sub;
+  console.log(jwtDecode(accessToken));
+  // const userID = localStorage.getItem("userID");
   try {
     const response = await axiosApiInstance.get(`users/${userID}`);
     console.log("Données récupérées:", response.data);
+    const response2 = await axiosApiInstance.get(`auth/refresh`);
+      console.log(response);
   } catch (error) {
     console.error("Erreur lors de la récupération des données:", error);
   }
