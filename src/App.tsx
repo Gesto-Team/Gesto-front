@@ -4,7 +4,7 @@ import {
   Route,
   Routes,
   Navigate,
-  Link,
+  // Link,
 } from "react-router-dom";
 import LoginPage from "./components/Login/Login";
 import RegisterPage from "./components/Register/Register";
@@ -31,40 +31,41 @@ const isAuthenticated = (): boolean => {
   return accessToken !== null;
 };
 
-const Navbar: React.FC<{ isLoggedIn: boolean; onLogout: () => void }> = () => {
-  return (
-    <nav>
-      <ul>
-        <li>
-          <Link to="/">Accueil</Link>
-        </li>
-        <li>
-          {isAuthenticated() ? (
-            <button onClick={handleLogout}>Se déconnecter</button>
-          ) : (
-            <Link to="/login">Connexion</Link>
-          )}
-        </li>
-      </ul>
-    </nav>
-  );
-};
+// const Navbar: React.FC<{ isLoggedIn: boolean; onLogout: () => void }> = () => {
+//   return (
+//     <nav>
+//       <ul>
+//         <li>
+//           <Link to="/">Accueil</Link>
+//         </li>
+//         <li>
+//           {isAuthenticated() ? (
+//             <button onClick={handleLogout}>Se déconnecter</button>
+//           ) : (
+//             <Link to="/login">Connexion</Link>
+//           )}
+//         </li>
+//       </ul>
+//     </nav>
+//   );
+// };
 
-const handleLogout = () => {
-  localStorage.removeItem("userID");
-  localStorage.removeItem("accessToken");
-  window.location.href = "/login";
-};
+// const handleLogout = () => {
+//   localStorage.removeItem("userID");
+//   localStorage.removeItem("accessToken");
+//   window.location.href = "/login";
+// };
+
 
 const App: React.FC = () => {
   return (
     <Router>
       <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
         <div>
-          <Navbar
+          {/* <Navbar
             isLoggedIn={isAuthenticated() ? true : false}
             onLogout={handleLogout}
-          />
+          /> */}
           <Routes>
             <Route
               path="/"
