@@ -10,6 +10,8 @@ import LoginPage from "./components/Login/Login";
 import RegisterPage from "./components/Register/Register";
 import DashboardPage from "./components/DashboardPage/DashboardPage";
 import axiosApiInstance from "./AxiosConfig";
+import { ProductTable } from "./components/ProductsList/ProductTable";
+import { ThemeProvider } from "./components/theme-provider";
 
 const fetchData = async () => {
   const userID = localStorage.getItem("userID");
@@ -57,22 +59,26 @@ const handleLogout = () => {
 const App: React.FC = () => {
   return (
     <Router>
-      <div>
-        <Navbar
-          isLoggedIn={isAuthenticated() ? true : false}
-          onLogout={handleLogout}
-        />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              isAuthenticated() ? <DashboardPage /> : <Navigate to="/login" />
-            }
+      <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+        <div>
+          <Navbar
+            isLoggedIn={isAuthenticated() ? true : false}
+            onLogout={handleLogout}
           />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-        </Routes>
-      </div>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                isAuthenticated() ? <DashboardPage /> : <Navigate to="/login" />
+              }
+            />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/products" element={<ProductTable />} />
+
+          </Routes>
+        </div>
+      </ThemeProvider>
     </Router>
   );
 };
