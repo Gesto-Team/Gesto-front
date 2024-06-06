@@ -11,7 +11,7 @@ import RegisterPage from "./components/Register/Register";
 import DashboardPage from "./components/DashboardPage/DashboardPage";
 import axiosApiInstance from "./AxiosConfig";
 import { ProductTable } from "./components/ProductsList/ProductTable";
-import { ThemeProvider } from "./components/theme-provider";
+import { ThemeProvider } from "./components/ui/DarkMode/theme-provider";
 
 const fetchData = async () => {
   const userID = localStorage.getItem("userID");
@@ -75,7 +75,6 @@ const App: React.FC = () => {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/products" element={<ProductTable />} />
-
           </Routes>
         </div>
       </ThemeProvider>

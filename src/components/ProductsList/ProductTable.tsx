@@ -60,7 +60,7 @@ import {
   TooltipTrigger,
   TooltipProvider,
 } from "@/components/ui/tooltip"
-import { ModeToggle } from "../ModeToggle"
+import { ModeToggle } from "../ui/DarkMode/ModeToggle"
 
 import { AddProduct } from "./AddProduct"
 import { getProducts } from "@/api/Services/Product"
