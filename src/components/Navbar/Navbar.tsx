@@ -4,7 +4,7 @@ import {
   TooltipTrigger,
   TooltipProvider,
 } from "@/components/ui/tooltip"
-import { Home, LineChart, Package, Package2, Settings, ShoppingCart, Users2 } from "lucide-react";
+import { Home, LineChart, Package, Package2, Settings } from "lucide-react";
 import { ModeToggle } from "../ui/DarkMode/ModeToggle";
 import { Link } from "react-router-dom";
 
