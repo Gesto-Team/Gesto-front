@@ -7,7 +7,7 @@ import {
 
 import { Button } from "@/components/ui/button"
 
-import { createProduct } from "@/api/Services/Product"
+import { createProduct, updateProduct } from "@/api/Services/Product"
 
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -47,9 +47,9 @@ export function EditProduct(props: { 'product': Product }) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const response = await createProduct(values);
+      const response = await updateProduct(props.product._id, values);
       window.location.reload();
-      console.log('Product created successfully', response);
+      console.log('Product edited successfully', response);
     } catch (error) {
       console.error('Error submitting form', error);
     }

@@ -1,5 +1,5 @@
 import { NewProduct, Product } from "@/Types/Product";
-import { get, post } from "./httpService";
+import { get, patch, post } from "./httpService";
 
 export const getProduct = (productId: number): Promise<Product> => {
   return get<Product>(`/product/${productId}`);
@@ -11,6 +11,13 @@ export const getProducts = (): Promise<Product[]> => {
 
 export const createProduct = (productData: NewProduct): Promise<Product> => {
   return post<Product>("/product", productData);
+};
+
+export const updateProduct = (
+  productId: string,
+  updatedProduct: NewProduct
+): Promise<Product> => {
+  return patch<Product>(`/product/${productId}`, updatedProduct);
 };
 
 // const getProducts = async () => {

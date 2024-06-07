@@ -31,3 +31,17 @@ export const post = async <T>(
     throw error;
   }
 };
+
+export const patch = async <T>(
+  url: string,
+  data: any,
+  config: AxiosConfig = {}
+): Promise<T> => {
+  try {
+    const response = await axiosInstance.patch<T>(url, data, config);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
