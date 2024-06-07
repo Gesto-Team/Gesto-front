@@ -45,3 +45,16 @@ export const patch = async <T>(
     throw error;
   }
 };
+
+export const remove = async <T>(
+  url: string,
+  config: AxiosConfig = {}
+): Promise<T> => {
+  try {
+    const response = await axiosInstance.delete<T>(url, config);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
