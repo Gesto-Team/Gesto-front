@@ -16,6 +16,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
+import { Products } from "./components/ProductsList/Products";
 
 // const fetchData = async () => {
 //   const accessToken = localStorage.getItem("accessToken") || "";
@@ -89,7 +90,7 @@ const App: React.FC = () => {
               />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
-              <Route path="/products" element={<ProductTable />} />
+              <Route path="/products" element={<Products />} />
             </Routes>
           </div>
         </QueryClientProvider>
