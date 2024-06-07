@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import "./Login.scss";
-import axiosApiInstance from "../../AxiosConfig";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -11,30 +9,13 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-
-function Copyright(props: any) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
-const defaultTheme = createTheme();
+import { ThemeProvider } from "@mui/material/styles";
+import { UserData } from "../../models/user.model";
+import { defaultTheme } from "../../theme/theme";
+import { login } from "../../services/auth.services";
 
 const LoginPage: React.FC = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<UserData>({
     username: "",
     password: "",
   });
@@ -49,17 +30,7 @@ const LoginPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    try {
-      const response = await axiosApiInstance.post(`auth/login`, formData);
-      const token = response.data.access_token;
-      const userID = response.data.userId;
-      localStorage.setItem("accessToken", token);
-      localStorage.setItem("userID", userID);
-      window.location.href = "/";
-    } catch (error) {
-      console.error("Erreur lors de la requête POST:", error);
-    }
+    login(formData);
   };
 
   return (
@@ -88,7 +59,7 @@ const LoginPage: React.FC = () => {
           >
             <TextField
               label="Username"
-              type="text"
+              type="email"
               name="username"
               value={formData.username}
               onChange={handleChange}
@@ -106,10 +77,6 @@ const LoginPage: React.FC = () => {
               margin="normal"
               required
             />
-            {/* <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            /> */}
             <Button
               type="submit"
               fullWidth
@@ -132,7 +99,6 @@ const LoginPage: React.FC = () => {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );

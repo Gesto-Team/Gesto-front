@@ -9,7 +9,7 @@ import {
 import LoginPage from "./components/Login/Login";
 import RegisterPage from "./components/Register/Register";
 import DashboardPage from "./components/DashboardPage/DashboardPage";
-import axiosApiInstance from "./AxiosConfig";
+// import axiosApiInstance from "./AxiosConfig";
 import { ProductTable } from "./components/ProductsList/ProductTable";
 import { ThemeProvider } from "./components/ui/DarkMode/theme-provider";
 import {
@@ -17,17 +17,22 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query'
 
-const fetchData = async () => {
-  const userID = localStorage.getItem("userID");
-  try {
-    const response = await axiosApiInstance.get(`users/${userID}`);
-    console.log("Données récupérées:", response.data);
-  } catch (error) {
-    console.error("Erreur lors de la récupération des données:", error);
-  }
-};
+// const fetchData = async () => {
+//   const accessToken = localStorage.getItem("accessToken") || "";
+//   const userID = jwtDecode(accessToken).sub;
+//   console.log(jwtDecode(accessToken));
+//   // const userID = localStorage.getItem("userID");
+//   try {
+//     const response = await axiosApiInstance.get(`users/${userID}`);
+//     console.log("Données récupérées:", response.data);
+//     const response2 = await axiosApiInstance.get(`auth/refresh`);
+//     console.log(response);
+//   } catch (error) {
+//     console.error("Erreur lors de la récupération des données:", error);
+//   }
+// };
 
-fetchData();
+// fetchData();
 
 const isAuthenticated = (): boolean => {
   // Vérifie si l'utilisateur est authentifié, par exemple en vérifiant la présence d'un jeton d'accès dans le localStorage
