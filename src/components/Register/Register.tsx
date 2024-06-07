@@ -1,17 +1,12 @@
 import React, { useState } from "react";
-import "./Register.scss";
 import { Button, TextField, Typography, Container } from "@mui/material";
-import axios from "axios";
-import axiosApiInstance from "../../AxiosConfig";
+import { register } from "../../services/auth.services";
 
 const RegisterPage: React.FC = () => {
   const [formData, setFormData] = useState({
     username: "",
     password: "",
   });
-  const [accessToken, setAccessToken] = useState<string | null>(
-    localStorage.getItem("accessToken")
-  );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -23,34 +18,7 @@ const RegisterPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    try {
-      const response = await axiosApiInstance.post(`auth/register`, formData);
-      const token = response.data.access_token;
-      setAccessToken(token);
-      localStorage.setItem("accessToken", token);
-      window.location.href = "/";
-    } catch (error) {
-      console.error("Erreur lors de la requête POST:", error);
-    }
-  };
-
-  const handleLogout = () => {
-    setAccessToken(null);
-    localStorage.removeItem("accessToken");
-  };
-
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(`auth/profile`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      console.log("Données récupérées:", response.data);
-    } catch (error) {
-      console.error("Erreur lors de la récupération des données:", error);
-    }
+    register(formData);
   };
 
   return (
@@ -84,20 +52,6 @@ const RegisterPage: React.FC = () => {
             S'inscrire
           </Button>
         </form>
-      </div>
-
-      <div>
-        {accessToken ? (
-          <div>
-            <p>Connecté!</p>
-            <button onClick={handleLogout}>Se déconnecter</button>
-            <button onClick={fetchData}>Récupérer les données</button>
-          </div>
-        ) : (
-          <div>
-            <p>Non connecté</p>
-          </div>
-        )}
       </div>
     </Container>
   );
