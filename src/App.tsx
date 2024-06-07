@@ -12,6 +12,10 @@ import DashboardPage from "./components/DashboardPage/DashboardPage";
 import axiosApiInstance from "./AxiosConfig";
 import { ProductTable } from "./components/ProductsList/ProductTable";
 import { ThemeProvider } from "./components/ui/DarkMode/theme-provider";
+import {
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
 
 const fetchData = async () => {
   const userID = localStorage.getItem("userID");
@@ -56,28 +60,34 @@ const isAuthenticated = (): boolean => {
 //   window.location.href = "/login";
 // };
 
+const queryClient = new QueryClient()
 
 const App: React.FC = () => {
   return (
     <Router>
       <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-        <div>
-          {/* <Navbar
+        <QueryClientProvider client={queryClient}>
+          <div>
+            {/* <Navbar
             isLoggedIn={isAuthenticated() ? true : false}
             onLogout={handleLogout}
           /> */}
-          <Routes>
-            <Route
-              path="/"
-              element={
-                isAuthenticated() ? <DashboardPage /> : <Navigate to="/login" />
-              }
-            />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/products" element={<ProductTable />} />
-          </Routes>
-        </div>
+
+
+
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  isAuthenticated() ? <DashboardPage /> : <Navigate to="/login" />
+                }
+              />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/products" element={<ProductTable />} />
+            </Routes>
+          </div>
+        </QueryClientProvider>
       </ThemeProvider>
     </Router>
   );

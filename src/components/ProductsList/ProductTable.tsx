@@ -35,14 +35,32 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs"
 import { AddProduct } from "./AddProduct"
-import { getProducts } from "@/api/Services/Product"
+// import { getProducts } from "@/api/Services/Product"
 import { TableAction } from "./TableAction"
 import { Navbar } from "../Navbar/Navbar"
 import { MobileHeader } from "../Navbar/MobileHeader"
+import axios from "axios"
+import { useQuery } from "@tanstack/react-query"
 
-const products = await getProducts();
+// const products = await getProducts();
 
 export function ProductTable() {
+
+  const { isPending, error, data, isFetching } = useQuery({
+    queryKey: ['repoData'],
+    queryFn: () =>
+      axios
+        .get('http://localhost:3000/product')
+        .then((res) => res.data),
+  })
+
+  if (isPending) return 'Loading...'
+
+  if (error) return 'An error has occurred: ' + error.message
+
+  const products = data;
+  console.log(products);
+
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
       <Navbar />
