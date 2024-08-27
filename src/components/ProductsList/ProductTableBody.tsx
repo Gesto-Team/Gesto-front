@@ -31,18 +31,24 @@ export function ProductTableBody(props: any) {
 
   if (error) return 'An error has occurred: ' + error.message
 
+  const getExpirationStatus = (expirationDate) => {
+    const currentDate = new Date();
+    const expiration = new Date(expirationDate);
+    const timeDiff = expiration.getTime() - currentDate.getTime();
+    const daysDiff = timeDiff / (1000 * 3600 * 24);
+
+    if (daysDiff < 0) {
+      return <p style={{ color: 'red', border: '1px red solid', borderRadius: '10px', width: '50%', textAlign: 'center' }}>Expiré</p >;
+    } else if (daysDiff <= 30) {
+      return <p style={{ color: 'orange', border: '1px orange solid', borderRadius: '10px', width: '50%', textAlign: 'center' }}>Presque expiré</p >;
+    } else {
+      return <p style={{ color: 'green', border: '1px green solid', borderRadius: '10px', width: '50%', textAlign: 'center' }}>Valide</p >;
+    }
+  }
+
   return (
     data.map((product) => (
       <TableRow key={product._id}>
-        <TableCell className="hidden sm:table-cell">
-          <img
-            alt="Product image"
-            className="aspect-square rounded-md object-cover"
-            height="64"
-            src="https://ui.shadcn.com/placeholder.svg"
-            width="64"
-          />
-        </TableCell>
         <TableCell className="font-medium">
           {product.name}
         </TableCell>
@@ -57,6 +63,9 @@ export function ProductTableBody(props: any) {
         </TableCell>
         <TableCell>
           {new Date(product.expirationDate).toLocaleDateString('en-GB')}
+        </TableCell>
+        <TableCell>
+          {getExpirationStatus(product.expirationDate)}
         </TableCell>
         <TableCell>
           <TableAction product={product} />
