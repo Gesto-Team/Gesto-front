@@ -5,8 +5,10 @@ import {
 import { TableAction } from "./TableAction"
 import axios from "axios"
 import { useQuery } from "@tanstack/react-query"
+import { useEffect } from "react"
 
-export function ProductTableBody() {
+export function ProductTableBody(props: any) {
+
   const { isPending, error, data, isFetching } = useQuery({
     queryKey: ['repoData'],
     queryFn: () =>
@@ -15,21 +17,22 @@ export function ProductTableBody() {
         .then((res) => res.data),
   })
 
+  useEffect(() => {
+    if (data) {
+      props.onProductsCountUpdate(data.length);
+    }
+  }, [data]);
+
   if (isPending) return (
     <TableRow>
-      <TableCell colSpan={6}>Loading...</TableCell>
+      <TableCell colSpan={6}>Chargement...</TableCell>
     </TableRow>
   )
 
   if (error) return 'An error has occurred: ' + error.message
 
-  const products = data;
-  console.log(products);
-
   return (
-
-
-    products.map((product) => (
+    data.map((product) => (
       <TableRow key={product._id}>
         <TableCell className="hidden sm:table-cell">
           <img
