@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query"
 import { useEffect } from "react"
 
 export function ProductTableBodyFiltred(props: any) {
+  let filtredData = [];
 
   const { isPending, error, data, isFetching } = useQuery({
     queryKey: ['repoData'],
@@ -18,10 +19,11 @@ export function ProductTableBodyFiltred(props: any) {
   })
 
   useEffect(() => {
-    if (data) {
-      props.onProductsCountUpdate(data.length);
+    if (filtredData) {
+      props.onProductsCountUpdate(filtredData.length);
     }
-  }, [data]);
+    console.log(filtredData);
+  }, [filtredData]);
 
   if (isPending) return (
     <TableRow>
@@ -45,8 +47,6 @@ export function ProductTableBodyFiltred(props: any) {
       return <p style={{ color: 'green', border: '1px green solid', borderRadius: '10px', width: '50%', textAlign: 'center' }}>Valide</p >;
     }
   }
-
-  let filtredData = [];
 
   if (props.filter === 'valide') {
     filtredData = data
