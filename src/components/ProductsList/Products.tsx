@@ -31,14 +31,14 @@ export function Products() {
         <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
           <Tabs defaultValue="all">
             <div className="flex items-center">
+
               <TabsList>
-                <TabsTrigger value="all">All</TabsTrigger>
-                <TabsTrigger value="active">Active</TabsTrigger>
-                <TabsTrigger value="draft">Draft</TabsTrigger>
-                <TabsTrigger value="archived" className="hidden sm:flex">
-                  Archived
-                </TabsTrigger>
+                <TabsTrigger value="all">Tout</TabsTrigger>
+                <TabsTrigger value="valide">Valide</TabsTrigger>
+                <TabsTrigger value="imminent">Imminent</TabsTrigger>
+                <TabsTrigger value="expired">Expiré</TabsTrigger>
               </TabsList>
+
               <div className="ml-auto flex items-center gap-2">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
