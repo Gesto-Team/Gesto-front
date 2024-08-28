@@ -22,7 +22,6 @@ export function ProductTableBodyFiltred(props: any) {
     if (filtredData) {
       props.onProductsCountUpdate(filtredData.length);
     }
-    console.log(filtredData);
   }, [filtredData]);
 
   if (isPending) return (
