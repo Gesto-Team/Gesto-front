@@ -4,7 +4,6 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs"
 import { AddProduct } from "./AddProduct"
-import { Navbar } from "../Navbar/Navbar"
 import { MobileHeader } from "../Navbar/MobileHeader"
 import { ProductTable } from "./ProductTable"
 
@@ -12,7 +11,6 @@ export function Products() {
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
-      <Navbar />
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
         <MobileHeader />
         <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">

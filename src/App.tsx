@@ -3,14 +3,9 @@ import {
   BrowserRouter as Router,
   Route,
   Routes,
-  Navigate,
-  // Link,
 } from "react-router-dom";
 import LoginPage from "./components/Login/Login";
 import RegisterPage from "./components/Register/Register";
-import DashboardPage from "./components/DashboardPage/DashboardPage";
-// import axiosApiInstance from "./AxiosConfig";
-import { ProductTable } from "./components/ProductsList/ProductTable";
 import { ThemeProvider } from "./components/ui/DarkMode/theme-provider";
 import {
   QueryClient,
@@ -18,6 +13,8 @@ import {
 } from '@tanstack/react-query'
 import { Products } from "./components/ProductsList/Products";
 import { SettingPage } from "./components/Setting/SettingPage";
+import { DashboardPage } from "./components/DashboardPage/DashboardPage";
+import { Navbar } from "./components/Navbar/Navbar";
 
 // const fetchData = async () => {
 //   const accessToken = localStorage.getItem("accessToken") || "";
@@ -79,16 +76,15 @@ const App: React.FC = () => {
             isLoggedIn={isAuthenticated() ? true : false}
             onLogout={handleLogout}
           /> */}
-
-
-
+            <Navbar />
             <Routes>
-              <Route
+              {/* <Route
                 path="/"
                 element={
                   isAuthenticated() ? <DashboardPage /> : <Navigate to="/login" />
                 }
-              />
+              /> */}
+              <Route path="/" element={<DashboardPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/products" element={<Products />} />

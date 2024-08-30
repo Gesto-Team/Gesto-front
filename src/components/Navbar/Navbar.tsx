@@ -6,9 +6,16 @@ import {
 } from "@/components/ui/tooltip"
 import { Home, LineChart, Package, Package2, Settings } from "lucide-react";
 import { ModeToggle } from "../ui/DarkMode/ModeToggle";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export function Navbar() {
+  const location = useLocation();
+
+  const getLinkClass = (path: string) =>
+    location.pathname === path
+      ? "flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-accent-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+      : "flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8";
+
 
   return (
     <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
@@ -25,7 +32,7 @@ export function Navbar() {
             <TooltipTrigger asChild>
               <Link
                 to="/"
-                className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                className={getLinkClass("/")}
               >
                 <Home className="h-5 w-5" />
                 <span className="sr-only">Dashboard</span>
@@ -37,7 +44,7 @@ export function Navbar() {
             <TooltipTrigger asChild>
               <Link
                 to="/products"
-                className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-accent-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                className={getLinkClass("/products")}
               >
                 <Package className="h-5 w-5" />
                 <span className="sr-only">Produits</span>
@@ -49,7 +56,7 @@ export function Navbar() {
             <TooltipTrigger asChild>
               <Link
                 to="#"
-                className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                className={getLinkClass("/statistiques")}
               >
                 <LineChart className="h-5 w-5" />
                 <span className="sr-only">Statistiques</span>
@@ -65,7 +72,7 @@ export function Navbar() {
             <TooltipTrigger asChild>
               <Link
                 to="/setting"
-                className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                className={getLinkClass("/setting")}
               >
                 <Settings className="h-5 w-5" />
                 <span className="sr-only">Paramétres</span>
