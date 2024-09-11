@@ -3,14 +3,12 @@ import {
   BrowserRouter as Router,
   Route,
   Routes,
+  Outlet,
 } from "react-router-dom";
 import LoginPage from "./components/Login/Login";
 import RegisterPage from "./components/Register/Register";
 import { ThemeProvider } from "./components/ui/DarkMode/theme-provider";
-import {
-  QueryClient,
-  QueryClientProvider,
-} from '@tanstack/react-query'
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Products } from "./components/ProductsList/Products";
 import { SettingPage } from "./components/Setting/SettingPage";
 import { DashboardPage } from "./components/DashboardPage/DashboardPage";
@@ -64,36 +62,16 @@ const isAuthenticated = (): boolean => {
 //   window.location.href = "/login";
 // };
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 
 const App: React.FC = () => {
   return (
-    <Router>
-      <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-        <QueryClientProvider client={queryClient}>
-          <div>
-            {/* <Navbar
-            isLoggedIn={isAuthenticated() ? true : false}
-            onLogout={handleLogout}
-          /> */}
-            <Navbar />
-            <Routes>
-              {/* <Route
-                path="/"
-                element={
-                  isAuthenticated() ? <DashboardPage /> : <Navigate to="/login" />
-                }
-              /> */}
-              <Route path="/" element={<DashboardPage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/register" element={<RegisterPage />} />
-              <Route path="/products" element={<Products />} />
-              <Route path="/setting" element={<SettingPage />} />
-            </Routes>
-          </div>
-        </QueryClientProvider>
-      </ThemeProvider>
-    </Router>
+    <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+      <QueryClientProvider client={queryClient}>
+        <Navbar />
+        <Outlet />
+      </QueryClientProvider>
+    </ThemeProvider>
   );
 };
 

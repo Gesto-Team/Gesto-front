@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, TextField, Typography, Container } from "@mui/material";
-import { register } from "../../services/auth.services";
+import { authServices } from "../../services/auth.services";
 
 const RegisterPage: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -18,7 +18,7 @@ const RegisterPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    register(formData);
+    authServices.register(formData);
   };
 
   return (

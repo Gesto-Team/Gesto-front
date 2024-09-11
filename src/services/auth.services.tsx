@@ -1,39 +1,21 @@
-import { jwtDecode } from "jwt-decode";
 import axiosApiInstance from "./AxiosConfig";
 import { UserData } from "../models/user.model";
 
-export const login = (userData: UserData) => {
-  axiosApiInstance
-    .post(`auth/login`, userData)
-    .then((response) => saveUserDataInLocalStorage(response.data.access_token))
-    .catch((error) => {
-      console.error("Erreur lors de la connexion:", error);
-    });
-};
+export const authServices = {
+  login: (userData: UserData) => {
+    return axiosApiInstance.post(`auth/login`, userData);
+  },
 
-export const register = (userData: UserData) => {
-  axiosApiInstance
-    .post(`auth/register`, userData)
-    .then((response) => saveUserDataInLocalStorage(response.data.access_token))
-    .catch((error) => {
-      console.error("Erreur lors de l'inscription:", error);
-    });
-};
+  register: (userData: UserData) => {
+    return axiosApiInstance.post(`auth/register`, userData);
+  },
 
-export const logout = () => {
-  localStorage.removeItem("userID");
-  localStorage.removeItem("accessToken");
-};
+  logout: (): Promise<null> => {
+    // TODO in backend (remove cookie)
+    return Promise.resolve(null);
+  },
 
-export const refreshTokens = async () => {
-  return axiosApiInstance.get(`auth/refresh`);
-};
-
-const saveUserDataInLocalStorage = (accessToken: string): void => {
-  const userId = jwtDecode(accessToken).sub;
-  if (!userId) {
-    throw new Error("No user ID found in token");
-  }
-  localStorage.setItem("accessToken", accessToken);
-  localStorage.setItem("userID", userId);
+  refreshTokens: async () => {
+    return axiosApiInstance.get(`auth/refresh`);
+  },
 };

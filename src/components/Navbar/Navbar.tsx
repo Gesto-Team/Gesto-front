@@ -3,7 +3,7 @@ import {
   TooltipContent,
   TooltipTrigger,
   TooltipProvider,
-} from "@/components/ui/tooltip"
+} from "@/components/ui/tooltip";
 import { Home, LineChart, Package, Package2, Settings } from "lucide-react";
 import { ModeToggle } from "../ui/DarkMode/ModeToggle";
 import { Link, useLocation } from "react-router-dom";
@@ -15,7 +15,6 @@ export function Navbar() {
     location.pathname === path
       ? "flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-accent-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
       : "flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8";
-
 
   return (
     <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
@@ -30,10 +29,7 @@ export function Navbar() {
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Link
-                to="/"
-                className={getLinkClass("/")}
-              >
+              <Link to="/" className={getLinkClass("/")}>
                 <Home className="h-5 w-5" />
                 <span className="sr-only">Dashboard</span>
               </Link>
@@ -42,10 +38,7 @@ export function Navbar() {
           </Tooltip>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Link
-                to="/products"
-                className={getLinkClass("/products")}
-              >
+              <Link to="/products" className={getLinkClass("/products")}>
                 <Package className="h-5 w-5" />
                 <span className="sr-only">Produits</span>
               </Link>
@@ -54,10 +47,7 @@ export function Navbar() {
           </Tooltip>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Link
-                to="#"
-                className={getLinkClass("/statistiques")}
-              >
+              <Link to="#" className={getLinkClass("/statistiques")}>
                 <LineChart className="h-5 w-5" />
                 <span className="sr-only">Statistiques</span>
               </Link>
@@ -70,10 +60,7 @@ export function Navbar() {
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Link
-                to="/setting"
-                className={getLinkClass("/setting")}
-              >
+              <Link to="/setting" className={getLinkClass("/setting")}>
                 <Settings className="h-5 w-5" />
                 <span className="sr-only">Paramétres</span>
               </Link>
@@ -86,4 +73,3 @@ export function Navbar() {
     </aside>
   );
 }
-
