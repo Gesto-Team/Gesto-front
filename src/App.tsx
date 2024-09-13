@@ -1,16 +1,8 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-  Link,
-} from "react-router-dom";
-import LoginPage from "./components/Login/Login";
-import RegisterPage from "./components/Register/Register";
-import DashboardPage from "./components/DashboardPage/DashboardPage";
-// import axiosApiInstance from "./services/AxiosConfig";
-// import { jwtDecode } from "jwt-decode";
+import { Outlet } from "react-router-dom";
+import { ThemeProvider } from "./components/ui/DarkMode/theme-provider";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Navbar } from "./components/Navbar/Navbar";
 
 // const fetchData = async () => {
 //   const accessToken = localStorage.getItem("accessToken") || "";
@@ -35,51 +27,40 @@ const isAuthenticated = (): boolean => {
   return accessToken !== null;
 };
 
-const Navbar: React.FC<{ isLoggedIn: boolean; onLogout: () => void }> = () => {
-  return (
-    <nav>
-      <ul>
-        <li>
-          <Link to="/">Accueil</Link>
-        </li>
-        <li>
-          {isAuthenticated() ? (
-            <button onClick={handleLogout}>Se déconnecter</button>
-          ) : (
-            <Link to="/login">Connexion</Link>
-          )}
-        </li>
-      </ul>
-    </nav>
-  );
-};
+// const Navbar: React.FC<{ isLoggedIn: boolean; onLogout: () => void }> = () => {
+//   return (
+//     <nav>
+//       <ul>
+//         <li>
+//           <Link to="/">Accueil</Link>
+//         </li>
+//         <li>
+//           {isAuthenticated() ? (
+//             <button onClick={handleLogout}>Se déconnecter</button>
+//           ) : (
+//             <Link to="/login">Connexion</Link>
+//           )}
+//         </li>
+//       </ul>
+//     </nav>
+//   );
+// };
 
-const handleLogout = () => {
-  localStorage.removeItem("userID");
-  localStorage.removeItem("accessToken");
-  window.location.href = "/login";
-};
+// const handleLogout = () => {
+//   localStorage.removeItem("userID");
+//   localStorage.removeItem("accessToken");
+//   window.location.href = "/login";
+// };
+
+const queryClient = new QueryClient();
 
 const App: React.FC = () => {
   return (
-    <Router>
-      <div>
-        <Navbar
-          isLoggedIn={isAuthenticated() ? true : false}
-          onLogout={handleLogout}
-        />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              isAuthenticated() ? <DashboardPage /> : <Navigate to="/login" />
-            }
-          />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-        </Routes>
-      </div>
-    </Router>
+    <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+      <QueryClientProvider client={queryClient}>
+        <Outlet />
+      </QueryClientProvider>
+    </ThemeProvider>
   );
 };
 
