@@ -1,17 +1,7 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Outlet,
-} from "react-router-dom";
-import LoginPage from "./components/Login/Login";
-import RegisterPage from "./components/Register/Register";
+import { Outlet } from "react-router-dom";
 import { ThemeProvider } from "./components/ui/DarkMode/theme-provider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Products } from "./components/ProductsList/Products";
-import { SettingPage } from "./components/Setting/SettingPage";
-import { DashboardPage } from "./components/DashboardPage/DashboardPage";
 import { Navbar } from "./components/Navbar/Navbar";
 
 // const fetchData = async () => {
@@ -68,7 +58,6 @@ const App: React.FC = () => {
   return (
     <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
       <QueryClientProvider client={queryClient}>
-        <Navbar />
         <Outlet />
       </QueryClientProvider>
     </ThemeProvider>

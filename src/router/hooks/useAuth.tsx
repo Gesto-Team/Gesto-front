@@ -67,7 +67,7 @@ export const AuthProvider = ({ children }: { children: ReactElement }) => {
       if (
         error.response.status === 401 &&
         !originalRequest._retry &&
-        error.config.url.slice(5, 13) !== "refresh"
+        error.config.url.slice(0, 4) !== "auth"
       ) {
         console.log(originalRequest._retry);
 
