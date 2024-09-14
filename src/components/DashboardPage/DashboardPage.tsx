@@ -19,7 +19,7 @@ export function DashboardPage() {
   const { isPending, error, data } = useQuery({
     queryKey: ["repoData"],
     queryFn: () =>
-      axios.get("http://localhost:3000/product").then((res) => res.data),
+      axios.get("http://localhost:3000/products").then((res) => res.data),
   });
 
   const [productsStatistics, setProductsStatistics] = useState({
