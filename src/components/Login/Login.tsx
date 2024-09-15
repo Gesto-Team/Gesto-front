@@ -32,7 +32,7 @@ const LoginPage: React.FC = () => {
 
   const onSubmit = async (values: Zod.infer<typeof formSchema>) => {
     try {
-      await login(values);
+      login(values);
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
         setErrorMessage(
@@ -79,7 +79,7 @@ const LoginPage: React.FC = () => {
                         <FormItem>
                           <FormLabel>Mot de passe</FormLabel>
                           <FormControl>
-                            <Input {...field} />
+                            <Input {...field} type="password" />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
