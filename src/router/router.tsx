@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import App from "../App";
 import LoginPage from "../components/Login/Login";
 import { AuthLayout } from "./AuthLayout";
@@ -15,7 +15,6 @@ export const router = createBrowserRouter([
     children: [
       {
         element: <App />,
-        path: "/",
         children: [
           {
             path: "/login",
@@ -44,6 +43,10 @@ export const router = createBrowserRouter([
               {
                 path: "setting",
                 element: <SettingPage />,
+              },
+              {
+                path: "*",
+                element: <Navigate to="/dashboard" />,
               },
             ],
           },
