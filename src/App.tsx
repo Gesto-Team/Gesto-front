@@ -2,7 +2,6 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import { ThemeProvider } from "./components/ui/DarkMode/theme-provider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Navbar } from "./components/Navbar/Navbar";
 
 // const fetchData = async () => {
 //   const accessToken = localStorage.getItem("accessToken") || "";
@@ -20,12 +19,6 @@ import { Navbar } from "./components/Navbar/Navbar";
 // };
 
 // fetchData();
-
-const isAuthenticated = (): boolean => {
-  // Vérifie si l'utilisateur est authentifié, par exemple en vérifiant la présence d'un jeton d'accès dans le localStorage
-  const accessToken = localStorage.getItem("accessToken");
-  return accessToken !== null;
-};
 
 // const Navbar: React.FC<{ isLoggedIn: boolean; onLogout: () => void }> = () => {
 //   return (

@@ -3,11 +3,16 @@ import { TableAction } from "./TableAction";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
+import { Product } from "@/Types/Product";
 
-export function ProductTableBodyFiltred(props: any) {
-  let filtredData = [];
+interface ChildProps {
+  onProductsCountUpdate: (productsCount: number) => void;
+  filter: string;
+}
+export function ProductTableBodyFiltred(props: ChildProps) {
+  let filtredData: Product[] = [];
 
-  const { isPending, error, data, isFetching } = useQuery({
+  const { isPending, error, data } = useQuery({
     queryKey: ["repoData"],
     queryFn: () =>
       axios.get("http://localhost:3000/products").then((res) => res.data),
@@ -28,7 +33,7 @@ export function ProductTableBodyFiltred(props: any) {
 
   if (error) return "An error has occurred: " + error.message;
 
-  const getExpirationStatus = (expirationDate) => {
+  const getExpirationStatus = (expirationDate: Date) => {
     const currentDate = new Date();
     const expiration = new Date(expirationDate);
     const timeDiff = expiration.getTime() - currentDate.getTime();
@@ -80,7 +85,7 @@ export function ProductTableBodyFiltred(props: any) {
   };
 
   if (props.filter === "valide") {
-    filtredData = data.filter((product) => {
+    filtredData = data.filter((product: Product) => {
       const currentDate = new Date();
       const expiration = new Date(product.expirationDate);
       const timeDiff = expiration.getTime() - currentDate.getTime();
@@ -88,7 +93,7 @@ export function ProductTableBodyFiltred(props: any) {
       return daysDiff > 30 && daysDiff;
     });
   } else if (props.filter === "imminent") {
-    filtredData = data.filter((product) => {
+    filtredData = data.filter((product: Product) => {
       const currentDate = new Date();
       const expiration = new Date(product.expirationDate);
       const timeDiff = expiration.getTime() - currentDate.getTime();
@@ -96,7 +101,7 @@ export function ProductTableBodyFiltred(props: any) {
       return daysDiff <= 30 && daysDiff > 0 && daysDiff;
     });
   } else if (props.filter === "expired") {
-    filtredData = data.filter((product) => {
+    filtredData = data.filter((product: Product) => {
       const currentDate = new Date();
       const expiration = new Date(product.expirationDate);
       const timeDiff = expiration.getTime() - currentDate.getTime();

@@ -3,55 +3,56 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 
-import { createProduct, updateProduct } from "@/api/Services/Product"
+import { updateProduct } from "@/api/Services/Product";
 
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
-import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from "@/components/ui/form"
-import { Product } from "@/Types/Product"
+} from "@/components/ui/form";
+import { Product } from "@/Types/Product";
 
 const formSchema = z.object({
-  name: z.string().min(2, 'Veuillez enter au moins 2 charactères').max(50),
-  price: z.coerce.number({ message: 'Veuillez entrer un nombre' }),
-  quantity: z.coerce.number({ message: 'Veuillez entrer un nombre' }),
-  unit: z.string().min(1, 'Veuillez enter au moins 2 charactères').max(10),
-  expirationDate: z.coerce.date()
-})
+  name: z.string().min(2, "Veuillez enter au moins 2 charactères").max(50),
+  price: z.coerce.number({ message: "Veuillez entrer un nombre" }),
+  quantity: z.coerce.number({ message: "Veuillez entrer un nombre" }),
+  unit: z.string().min(1, "Veuillez enter au moins 2 charactères").max(10),
+  expirationDate: z.coerce.date(),
+});
 
-export function EditProduct(props: { 'product': Product }) {
-
+export function EditProduct(props: { product: Product }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: props.product.name || '',
-      price: props.product.price || '',
-      quantity: props.product.quantity || '',
-      unit: props.product.unit || '',
-      expirationDate: new Date(props.product.expirationDate).toISOString().split('T')[0],
+      name: props.product.name || "",
+      price: props.product.price || ("" as unknown as number),
+      quantity: props.product.quantity || ("" as unknown as number),
+      unit: props.product.unit || "",
+      expirationDate: new Date(props.product.expirationDate)
+        .toISOString()
+        .split("T")[0] as unknown as Date,
     },
-  })
+  });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       const response = await updateProduct(props.product._id, values);
       window.location.reload();
-      console.log('Product edited successfully', response);
+      console.log("Product edited successfully", response);
     } catch (error) {
-      console.error('Error submitting form', error);
+      console.error("Error submitting form", error);
     }
   }
 
@@ -144,7 +145,11 @@ export function EditProduct(props: { 'product': Product }) {
                 render={({ field }) => (
                   <FormItem className="col-span-3">
                     <FormControl>
-                      <Input id="expirationDate" type="date" {...field} />
+                      <Input
+                        id="expirationDate"
+                        type="date"
+                        {...(field as unknown as Date)}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -158,6 +163,5 @@ export function EditProduct(props: { 'product': Product }) {
         </form>
       </Form>
     </>
-
-  )
+  );
 }

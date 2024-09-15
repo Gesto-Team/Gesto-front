@@ -3,9 +3,13 @@ import { TableAction } from "./TableAction";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
+import { Product } from "@/Types/Product";
 
-export function ProductTableBody(props: any) {
-  const { isPending, error, data, isFetching } = useQuery({
+interface ChildProps {
+  onProductsCountUpdate: (productsCount: number) => void;
+}
+export function ProductTableBody(props: ChildProps) {
+  const { isPending, error, data } = useQuery({
     queryKey: ["repoData"],
     queryFn: () =>
       axios.get("http://localhost:3000/products").then((res) => res.data),
@@ -26,7 +30,7 @@ export function ProductTableBody(props: any) {
 
   if (error) return "An error has occurred: " + error.message;
 
-  const getExpirationStatus = (expirationDate) => {
+  const getExpirationStatus = (expirationDate: Date) => {
     const currentDate = new Date();
     const expiration = new Date(expirationDate);
     const timeDiff = expiration.getTime() - currentDate.getTime();
@@ -77,7 +81,7 @@ export function ProductTableBody(props: any) {
     }
   };
 
-  return data.map((product) => (
+  return data.map((product: Product) => (
     <TableRow key={product._id}>
       <TableCell className="font-medium">{product.name}</TableCell>
       <TableCell className="hidden md:table-cell">{product.price}</TableCell>

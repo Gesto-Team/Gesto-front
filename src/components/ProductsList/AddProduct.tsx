@@ -1,5 +1,5 @@
-import { createProduct } from "@/api/Services/Product"
-import { Button } from "@/components/ui/button"
+import { createProduct } from "@/api/Services/Product";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -8,53 +8,51 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { PlusCircle } from "lucide-react"
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { PlusCircle } from "lucide-react";
 
-import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from "@/components/ui/form"
+} from "@/components/ui/form";
 
 const formSchema = z.object({
-  name: z.string().min(2, 'Veuillez enter au moins 2 charactères').max(50),
-  price: z.coerce.number({ message: 'Veuillez entrer un nombre' }),
-  quantity: z.coerce.number({ message: 'Veuillez entrer un nombre' }),
-  unit: z.string().min(1, 'Veuillez enter au moins 2 charactères').max(10),
-  expirationDate: z.coerce.date()
-})
+  name: z.string().min(2, "Veuillez enter au moins 2 charactères").max(50),
+  price: z.coerce.number({ message: "Veuillez entrer un nombre" }),
+  quantity: z.coerce.number({ message: "Veuillez entrer un nombre" }),
+  unit: z.string().min(1, "Veuillez enter au moins 2 charactères").max(10),
+  expirationDate: z.coerce.date(),
+});
 
 export function AddProduct() {
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: '',
-      price: '',
-      quantity: '',
-      unit: '',
-      expirationDate: '',
+      name: "",
+      price: "" as unknown as number,
+      quantity: "" as unknown as number,
+      unit: "",
+      expirationDate: "" as unknown as Date,
     },
-  })
+  });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       const response = await createProduct(values);
       window.location.reload();
-      console.log('Product created successfully', response);
+      console.log("Product created successfully", response);
     } catch (error) {
-      console.error('Error submitting form', error);
+      console.error("Error submitting form", error);
     }
   }
-
 
   return (
     <Dialog>
@@ -154,7 +152,11 @@ export function AddProduct() {
                   render={({ field }) => (
                     <FormItem className="col-span-3">
                       <FormControl>
-                        <Input id="expirationDate" type="date" {...field} />
+                        <Input
+                          id="expirationDate"
+                          type="date"
+                          {...(field as unknown as Date)}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -169,5 +171,5 @@ export function AddProduct() {
         </Form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
