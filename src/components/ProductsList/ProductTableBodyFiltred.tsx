@@ -15,7 +15,9 @@ export function ProductTableBodyFiltred(props: ChildProps) {
   const { isPending, error, data } = useQuery({
     queryKey: ["repoData"],
     queryFn: () =>
-      axios.get("http://localhost:3000/products").then((res) => res.data),
+      axios
+        .get(import.meta.env.VITE_API_URL + "products")
+        .then((res) => res.data),
   });
 
   useEffect(() => {
