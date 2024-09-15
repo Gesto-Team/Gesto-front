@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import { defaultTheme } from "../../theme/theme";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,11 +19,13 @@ import {
 import { defaultValues, formSchema } from "./Login.form";
 import { Button } from "../ui/button";
 import { AxiosError } from "axios";
+import { authServices } from "@/services/auth.services";
 import { useAuth } from "@/router/hooks/useAuth";
 
 const LoginPage: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState("");
-  const { login } = useAuth();
+  const { setUser } = useAuth();
+  const navigate = useNavigate();
 
   const form = useForm<Zod.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -31,17 +33,25 @@ const LoginPage: React.FC = () => {
   });
 
   const onSubmit = async (values: Zod.infer<typeof formSchema>) => {
-    try {
-      login(values);
-    } catch (error: unknown) {
-      if (error instanceof AxiosError) {
-        setErrorMessage(
-          error.response?.data?.message || "An unexpected error occurred"
-        );
-      } else {
-        setErrorMessage("An unexpected error occurred");
-      }
-    }
+    authServices
+      .login(values)
+      .then((response) => {
+        setUser({
+          userId: response.data.userId,
+          access_token: response.data.access_token,
+          role: response.data.role,
+        });
+        navigate("/dashboard");
+      })
+      .catch((error: unknown) => {
+        if (error instanceof AxiosError) {
+          setErrorMessage(
+            error.response?.data?.message || "An unexpected error occurred"
+          );
+        } else {
+          setErrorMessage("An unexpected error occurred");
+        }
+      });
   };
 
   return (

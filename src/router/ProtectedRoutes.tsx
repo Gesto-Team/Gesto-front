@@ -19,3 +19,11 @@ export const RedirectHomeRoute = ({ children }: { children: ReactElement }) => {
   }
   return children;
 };
+
+export const AdminRoute = ({ children }: { children: ReactElement }) => {
+  const { user } = useAuth();
+  if (!user || user.role !== "admin") {
+    return <Navigate to="/dashboard" />;
+  }
+  return children;
+};
