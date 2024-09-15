@@ -1,8 +1,8 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import App from "../App";
 import LoginPage from "../components/Login/Login";
 import { AuthLayout } from "./AuthLayout";
-import { ProtectedRoute } from "./ProtectedRoutes";
+import { ProtectedRoute, RedirectHomeRoute } from "./ProtectedRoutes";
 import DashboardPage from "../components/DashboardPage/DashboardPage";
 import RegisterPage from "../components/Register/Register";
 import { Products } from "@/components/ProductsList/Products";
@@ -15,8 +15,15 @@ export const router = createBrowserRouter([
     children: [
       {
         element: <App />,
-        path: "/",
         children: [
+          // {
+          //   path: "/",
+          //   element: (
+          //     <RedirectHomeRoute>
+          //       <DashboardPage />
+          //     </RedirectHomeRoute>
+          //   ),
+          // },
           {
             path: "/login",
             element: <LoginPage />,
@@ -44,6 +51,10 @@ export const router = createBrowserRouter([
               {
                 path: "setting",
                 element: <SettingPage />,
+              },
+              {
+                path: "*",
+                element: <Navigate to="/dashboard" />,
               },
             ],
           },
