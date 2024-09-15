@@ -1,104 +1,117 @@
 import React, { useState } from "react";
-import "./Register.scss";
-import { Button, TextField, Typography, Container } from "@mui/material";
-import axios from "axios";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { authServices } from "../../services/auth.services";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../ui/form";
+import { Input } from "../ui/input";
+import { AxiosError } from "axios";
+import { defaultValues, formSchema } from "./Register.form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
+import { defaultTheme } from "../../theme/theme";
+import { Button } from "../ui/button";
 
 const RegisterPage: React.FC = () => {
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
+  const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const form = useForm<Zod.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: defaultValues,
   });
-  const [accessToken, setAccessToken] = useState<string | null>(
-    localStorage.getItem("accessToken")
-  );
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const onSubmit = async (values: Zod.infer<typeof formSchema>) => {
     try {
-      const response = await axios.post(`auth/register`, formData);
-      const token = response.data.access_token;
-      setAccessToken(token);
-      console.log(token);
-      localStorage.setItem("accessToken", token);
-    } catch (error) {
-      console.error("Erreur lors de la requête POST:", error);
-    }
-  };
-
-  const handleLogout = () => {
-    setAccessToken(null);
-    localStorage.removeItem("accessToken");
-  };
-
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(`auth/profile`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      console.log("Données récupérées:", response.data);
-    } catch (error) {
-      console.error("Erreur lors de la récupération des données:", error);
+      await authServices.register(values);
+      navigate("/");
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        setErrorMessage(
+          error.response?.data?.message || "An unexpected error occurred"
+        );
+      } else {
+        setErrorMessage("An unexpected error occurred");
+      }
     }
   };
 
   return (
-    <Container maxWidth="xs">
-      <div>
-        <Typography variant="h4" gutterBottom>
-          Inscription
-        </Typography>
-        <form onSubmit={handleSubmit}>
-          <TextField
-            label="Username"
-            type="text"
-            value={formData.username}
-            name="username"
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            required
-          />
-          <TextField
-            label="Mot de passe"
-            type="password"
-            value={formData.password}
-            name="password"
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            required
-          />
-          <Button type="submit" variant="contained" color="primary">
-            S'inscrire
-          </Button>
-        </form>
+    <ThemeProvider theme={defaultTheme}>
+      <CssBaseline />
+      <div className="flex items-center h-screen">
+        <Card className="flex-grow mx-auto max-w-md">
+          <CardHeader className="space-y-1">
+            <CardTitle className="text-2xl font-bold">Inscription</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)}>
+                  <div className="space-y-2">
+                    <FormField
+                      control={form.control}
+                      name="username"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Email</FormLabel>
+                          <FormControl>
+                            <Input placeholder="m@example.com" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <FormField
+                      control={form.control}
+                      name="password"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Mot de passe</FormLabel>
+                          <FormControl>
+                            <Input {...field} />
+                          </FormControl>
+                          <FormDescription>
+                            Le mot de passe doit contenir au moins 8 caractères,
+                            une minuscule, une majuscule, un nombre et un
+                            caractère spécial.
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <Button type="submit" className="w-full my-4">
+                    S'inscrire
+                  </Button>
+                  {errorMessage && (
+                    <FormDescription className="text-red-500">
+                      {errorMessage}
+                    </FormDescription>
+                  )}
+                  <FormDescription>
+                    Déjà un compte ?
+                    <Link to="/register" className="font-bold underline">
+                      Se connecter
+                    </Link>
+                  </FormDescription>
+                </form>
+              </Form>
+            </div>
+          </CardContent>
+        </Card>
       </div>
-
-      <div>
-        {accessToken ? (
-          <div>
-            <p>Connecté!</p>
-            <button onClick={handleLogout}>Se déconnecter</button>
-            <button onClick={fetchData}>Récupérer les données</button>
-          </div>
-        ) : (
-          <div>
-            <p>Non connecté</p>
-          </div>
-        )}
-      </div>
-    </Container>
+    </ThemeProvider>
   );
 };
 
