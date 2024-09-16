@@ -104,12 +104,6 @@ const LoginPage: React.FC = () => {
                       {errorMessage}
                     </FormDescription>
                   )}
-                  <FormDescription>
-                    Vous n'avez pas de compte ?
-                    <Link to="/register" className="font-bold underline">
-                      S'inscrire
-                    </Link>
-                  </FormDescription>
                 </form>
               </Form>
             </div>
