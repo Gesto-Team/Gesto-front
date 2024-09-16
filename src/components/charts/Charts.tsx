@@ -59,7 +59,9 @@ const PriceTooltip = ({ active, payload }: TooltipProps<any, any>) => {
       <div className="custom-tooltip">
         {/* <p className="label">{"Prix total"}</p> */}
         {/* <p className="intro">{`Quantité: ${product.quantity} ${product.unit}`}</p> */}
-        <p className="desc">{`Prix total: ${totalPrice} €`}</p>
+        <p className="desc">{`Prix total: ${
+          Math.round(totalPrice * 100) / 100
+        } €`}</p>
       </div>
     );
   }

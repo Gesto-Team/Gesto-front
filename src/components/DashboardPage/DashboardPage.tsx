@@ -105,8 +105,11 @@ export function DashboardPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-xs text-muted-foreground">
-                    {productsStatistics.productsExpiringThisMonthPercentage}%
-                    des produits valides
+                    {Math.round(
+                      productsStatistics.productsExpiringThisMonthPercentage *
+                        100
+                    ) / 100}
+                    % des produits valides
                   </div>
                 </CardContent>
                 <CardFooter>
@@ -115,7 +118,11 @@ export function DashboardPage() {
                       productsStatistics.productsExpiringThisMonthPercentage
                     }
                     aria-label={
-                      productsStatistics.productsExpiringThisMonthPercentage +
+                      Math.round(
+                        productsStatistics.productsExpiringThisMonthPercentage *
+                          100
+                      ) /
+                        100 +
                       "% increase"
                     }
                   />
@@ -132,8 +139,11 @@ export function DashboardPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-xs text-muted-foreground">
-                    {productsStatistics.productsExpiringThisWeekPercentage}% des
-                    produits valides
+                    {Math.round(
+                      productsStatistics.productsExpiringThisWeekPercentage *
+                        100
+                    ) / 100}
+                    % des produits valides
                   </div>
                 </CardContent>
                 <CardFooter>
@@ -154,7 +164,10 @@ export function DashboardPage() {
                     Total des produits arrivant à expiration ce mois-ci
                   </CardDescription>
                   <CardTitle className="text-4xl">
-                    {productsStatistics.productsExpiringThisMonthTotal} €
+                    {Math.round(
+                      productsStatistics.productsExpiringThisMonthTotal * 100
+                    ) / 100}{" "}
+                    €
                   </CardTitle>
                 </CardHeader>
               </Card>
@@ -164,7 +177,10 @@ export function DashboardPage() {
                     Total des produits arrivant à expiration cette semaine
                   </CardDescription>
                   <CardTitle className="text-4xl">
-                    {productsStatistics.productsExpiringThisWeekTotal} €
+                    {Math.round(
+                      productsStatistics.productsExpiringThisWeekTotal * 100
+                    ) / 100}{" "}
+                    €
                   </CardTitle>
                 </CardHeader>
               </Card>
