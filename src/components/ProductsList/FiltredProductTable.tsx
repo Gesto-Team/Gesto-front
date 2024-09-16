@@ -38,7 +38,7 @@ export function FiltredProductTable(props: ChildProps) {
               <TableHead className="hidden md:table-cell">Prix</TableHead>
               <TableHead className="hidden md:table-cell">Quantité</TableHead>
               <TableHead className="hidden md:table-cell">Unité</TableHead>
-              <TableHead>Date d'éxpiration</TableHead>
+              <TableHead>Date d'expiration</TableHead>
               <TableHead>
                 <span className="sr-only">Actions</span>
               </TableHead>
