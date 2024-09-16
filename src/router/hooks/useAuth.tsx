@@ -1,6 +1,6 @@
 import { ReactElement, useContext, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserData } from "../../models/user.model";
+import { Role, UserData } from "../../models/user.model";
 import { authServices } from "../../services/auth.services";
 import { jwtDecode } from "jwt-decode";
 import { useLocalStorage } from "./useLocalStorage";
@@ -10,23 +10,10 @@ import axiosApiInstance from "../../services/AxiosConfig";
 export const AuthProvider = ({ children }: { children: ReactElement }) => {
   const [user, setUser] = useLocalStorage("user", {
     userId: "",
+    role: Role.USER,
     access_token: "",
   });
   const navigate = useNavigate();
-
-  // Login
-  const login = async (userData: UserData) => {
-    authServices
-      .login(userData)
-      .then((response) => {
-        const userId = getIdByToken(response.data.access_token);
-        setUser({ userId: userId, access_token: response.data.access_token });
-        navigate("/dashboard");
-      })
-      .catch(function (error: Error) {
-        console.log(error);
-      });
-  };
 
   // Logout
   const logout = async () => {
@@ -98,7 +85,6 @@ export const AuthProvider = ({ children }: { children: ReactElement }) => {
     () => ({
       user,
       setUser,
-      login,
       logout,
       register,
     }),
