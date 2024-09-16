@@ -57,7 +57,7 @@ export function Navbar() {
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Link to="#" className={getLinkClass("/statistiques")}>
+                <Link to="/charts" className={getLinkClass("/charts")}>
                   <LineChart className="h-5 w-5" />
                   <span className="sr-only">Statistiques</span>
                 </Link>
@@ -67,7 +67,7 @@ export function Navbar() {
           </TooltipProvider>
         </nav>
         <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
-          {user && user.role === "admin" ? (
+          {/* {user && user.role === "admin" ? (
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -81,7 +81,7 @@ export function Navbar() {
             </TooltipProvider>
           ) : (
             <></>
-          )}
+          )} */}
           <ModeToggle />
           <TooltipProvider>
             <Tooltip>

@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -6,19 +6,16 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 
 export function SettingSecurite() {
-
   return (
     <div className="grid gap-6">
       <Card x-chunk="dashboard-04-chunk-1">
         <CardHeader>
           <CardTitle>Mot de passe</CardTitle>
-          <CardDescription>
-            Modifier votre mot de passe.
-          </CardDescription>
+          <CardDescription>Modifier votre mot de passe.</CardDescription>
         </CardHeader>
         <CardContent>
           <form>
