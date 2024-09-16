@@ -8,6 +8,7 @@ import RegisterPage from "../components/Register/Register";
 import { Products } from "@/components/ProductsList/Products";
 import { SettingPage } from "@/components/Setting/SettingPage";
 import { Navbar } from "@/components/Navbar/Navbar";
+import Charts from "@/components/charts/Charts";
 
 export const router = createBrowserRouter([
   {
@@ -39,6 +40,10 @@ export const router = createBrowserRouter([
               {
                 path: "products",
                 element: <Products />,
+              },
+              {
+                path: "charts",
+                element: <Charts />,
               },
               {
                 path: "setting",

@@ -1,0 +1,7 @@
+.custom-tooltip {
+  background-color: rgba(0, 0, 0, 0.75); /* Couleur de fond avec transparence */
+  color: #fff; /* Couleur du texte */
+  padding: 10px; /* Espacement interne */
+  border-radius: 5px; /* Coins arrondis */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Ombre */
+}

@@ -4,13 +4,13 @@ import {
   TooltipTrigger,
   TooltipProvider,
 } from "@/components/ui/tooltip";
-import { Home, LineChart, Package, Package2, Settings } from "lucide-react";
+import { Home, LineChart, LogOut, Package, Package2 } from "lucide-react";
 import { ModeToggle } from "../ui/DarkMode/ModeToggle";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "@/router/hooks/useAuth";
 
 export function Navbar() {
-  const { user } = useAuth();
+  const { logout } = useAuth();
   const location = useLocation();
 
   const getLinkClass = (path: string) =>
@@ -50,7 +50,7 @@ export function Navbar() {
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Link to="#" className={getLinkClass("/statistiques")}>
+                <Link to="/charts" className={getLinkClass("/charts")}>
                   <LineChart className="h-5 w-5" />
                   <span className="sr-only">Statistiques</span>
                 </Link>
@@ -60,7 +60,7 @@ export function Navbar() {
           </TooltipProvider>
         </nav>
         <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
-          {user && user.role === "admin" ? (
+          {/* {user && user.role === "admin" ? (
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -74,8 +74,19 @@ export function Navbar() {
             </TooltipProvider>
           ) : (
             <></>
-          )}
+          )} */}
           <ModeToggle />
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild onClick={logout}>
+                <Link to="/login" className={getLinkClass("/login")}>
+                  <LogOut className="h-5 w-5" />
+                  <span className="sr-only">Déconnexion</span>
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent side="right">Déconnexion</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </nav>
       </aside>
       <Outlet />
