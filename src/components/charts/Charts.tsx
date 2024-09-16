@@ -33,7 +33,7 @@ const chartConfig = {
 
 import { TooltipProps } from "recharts";
 
-const QuantityTooltip = ({ active, payload, label }: TooltipProps) => {
+const QuantityTooltip = ({ active, payload }: TooltipProps<any, any>) => {
   if (active && payload && payload.length) {
     const product = payload[0].payload;
     // const totalPrice = product.price * product.quantity;
@@ -50,7 +50,7 @@ const QuantityTooltip = ({ active, payload, label }: TooltipProps) => {
   return null;
 };
 
-const PriceTooltip = ({ active, payload, label }: TooltipProps) => {
+const PriceTooltip = ({ active, payload }: TooltipProps<any, any>) => {
   if (active && payload && payload.length) {
     const product = payload[0].payload;
     const totalPrice = product.price * product.quantity;

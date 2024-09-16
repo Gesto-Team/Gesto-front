@@ -4,20 +4,13 @@ import {
   TooltipTrigger,
   TooltipProvider,
 } from "@/components/ui/tooltip";
-import {
-  Home,
-  LineChart,
-  LogOut,
-  Package,
-  Package2,
-  Settings,
-} from "lucide-react";
+import { Home, LineChart, LogOut, Package, Package2 } from "lucide-react";
 import { ModeToggle } from "../ui/DarkMode/ModeToggle";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "@/router/hooks/useAuth";
 
 export function Navbar() {
-  const { user, logout } = useAuth();
+  const { logout } = useAuth();
   const location = useLocation();
 
   const getLinkClass = (path: string) =>
